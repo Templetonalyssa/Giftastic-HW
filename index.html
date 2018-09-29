@@ -37,7 +37,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script type="text/javascript">
             // Initial array of t
-            var topics = ["Tango", "Waltz", "Hip-Hop", "Cha cha cha"];
+            var topics = ["Tango", "Waltz Dance", "Hip-Hop Dance", "Cha cha cha"];
 
             // displaydanceInfo function re-renders the HTML to display the appropriate content
             function displaydanceInfo() {
@@ -52,6 +52,7 @@
                 }).then(function (response) {
 
                     var results = response.data;
+                    $("#dance-view").empty();
 
                     for (var i = 0; i < results.length; i++) {
 
@@ -67,15 +68,19 @@
                             var p = $("<p>").text("Rating: " + rating);
 
                             // Creating an image tag
-                            var personImage = $("<img>");
+                            var danceImage = $("<img>");
 
                             // Giving the image tag an src attribute of a proprty pulled off the
-                            // result item
-                            personImage.attr("src", results[i].images.fixed_height.url);
+                            // result item 
+                            danceImage.attr("src", results[i].images.fixed_height_still.url);
+                            console.log(results);
+                            danceImage.attr("data-still", results[i].images.fixed_height_still.url);
+                            danceImage.attr("data-animate", results[i].images.fixed_height.url);
+                            danceImage.attr("data-state", "still")
 
-                            // Appending the paragraph and personImage we created to the "gifDiv" div we created
+                            // Appending the paragraph and danceImage we created to the "gifDiv" div we created
                             gifDiv.append(p);
-                            gifDiv.append(personImage);
+                            gifDiv.append(danceImage);
 
                             // Prepending the gifDiv to the "#gifs-appear-here" div in the HTML
                             $("#dance-view").prepend(gifDiv);
@@ -91,11 +96,10 @@
                 // Deleting the topics prior to adding new topics
                 // (this is necessary otherwise you will have repeat buttons)
                 $("#buttons-view").empty();
+                // $("#dance-input").empty();
 
                 // Looping through the array of topics
                 for (var i = 0; i < topics.length; i++) {
-
-                    //if (results[i].rating !== "r" && results[i].rating !== "pg-13") {
 
                     // Then dynamicaly generating buttons for each dance in the array
                     // This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
@@ -119,6 +123,7 @@
                 event.preventDefault();
                 // This line grabs the input from the textbox
                 var dance = $("#dance-input").val().trim();
+                $("#dance-input").val("");
 
                 // Adding dance from the textbox to our array
                 topics.push(dance);
@@ -132,8 +137,21 @@
 
             // Calling the renderButtons function to display the intial buttons
             renderButtons();
+            //new function to change data-state of img
+            $(document).on("click", "img", function () {
+                if ($(this).attr("data-state") === "still") {
+                    console.log("stuff here")
+                    $(this).attr("src", $(this).attr("data-animate"))
+                    $(this).attr("data-state", "animate")
+                } else {
+                    $(this).attr("src", $(this).attr("data-still"))
+                    $(this).attr("data-state", "still")
+                    console.log("then this")
+                }
+            })
         </script>
     </div>
+
 </body>
 
 </html>
