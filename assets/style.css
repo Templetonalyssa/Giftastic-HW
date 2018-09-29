@@ -1,9 +1,7 @@
-#movie-form {
-    padding: 10px;
-}
 
-button{
-    padding: 5px;
-    margin: 10px;
-}
-
+ button,
+ div,
+ form,
+input {
+   margin: 10px;
+        }
