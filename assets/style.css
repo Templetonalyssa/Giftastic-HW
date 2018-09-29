@@ -4,4 +4,9 @@
  form,
 input {
    margin: 10px;
+   
         }
+
+.imagediv {
+    float: left;
+}
